@@ -1,24 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
-import _ from "lodash";
+import UsersClear from "./components/UsersClear";
 
-class App extends Component {
-	constructor() {
-		super();
-		this.state = {
-			array: [
-				{ firstName: "Neil", middleName: "Francis", surname: "Tennant" },
-				{ firstName: "Chris", middleName: "Sean", surname: "Lowe" }
-			]
-		};
-	}
+class App extends React.Component {
 	render() {
-		console.log(_.map(this.state.array, "surname"));
+		console.table(this.state);
 		return (
 			<div>
-				<code>
-					<h2>Loadash</h2>
-				</code>
+				<UsersClear />
 			</div>
 		);
 	}
