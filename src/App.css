@@ -1,28 +1,33 @@
-.App {
-  text-align: center;
+body {
+	background: #222;
+	color: rgb(135, 236, 240);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.app-container {
+	margin: 20px;
+	width: 300px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.date-input-container {
+	width: 90%;
+	margin-top: 15px;
 }
 
-.App-title {
-  font-size: 1.5em;
+.date-input-container .date-item {
+	margin-bottom: 7px;
+	display: flex;
 }
 
-.App-intro {
-  font-size: large;
+.date-input-container .date-item label {
+	flex: 1.5;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.date-input-container .date-item input {
+	flex: 3;
+	background: rgb(189, 189, 189);
+}
+
+.submit-container {
+	text-align: right;
+	margin-top: 20px;
 }
