@@ -1,44 +1,55 @@
 import React, { Component } from "react";
 import "./App.css";
+import store from "./store";
+import { albumReleased } from "./actions/albumsActions";
 
-class App extends React.Component {
+class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			firstName: "",
-			lastName: "",
-			age: 0
+			album: "",
+			done: false
 		};
 	}
 
+	handleChange = (e) => {
+		this.setState({
+			album: e.target.value
+		});
+	};
+
 	onSubmit = () => {
 		this.setState({
-			firstName: this.firstName.value,
-			lastName: this.lastName.value,
-			age: this.age.value
+			done: true
 		});
-		// console.log(this.firstName.value, this.lastName.value, this.age.value);
+		store.dispatch(albumReleased(this.state.album));
+	};
+
+	handleKeyUp = (e) => {
+		if (e.keyCode === 13) this.onSubmit();
+	};
+
+	getAlbums = () => {
+		return store.getState().albums.map((album, index) => <li key="index">{album}</li>);
 	};
 
 	render() {
-		console.table(this.state);
 		return (
 			<div>
-				<div>
-					<label>First name</label>
-					<input type="text" ref={(input) => (this.firstName = input)} onKeyUp={this.handleKeyUp} />
-				</div>
-				<div>
-					<label>Last name</label>
-					<input type="text" ref={(input) => (this.lastName = input)} />
-				</div>
-				<div>
-					<label>Age</label>
-					<input type="text" ref={(input) => (this.age = input)} />
-				</div>
-				<div>
-					<button onClick={this.onSubmit}>Submit</button>
-				</div>
+				<h2>PSB ALBUMS</h2>
+				<ul>{this.getAlbums()}</ul>
+				<hr />
+				<code>Enter album name:</code>
+				<input type="text" onChange={this.handleChange} onKeyUp={this.handleKeyUp} />
+				<button onClick={this.onSubmit}>Submit</button>
+				<hr />
+				{this.state.done === true && (
+					<code>
+						You entered:<span>
+							<b>{this.state.album}</b>
+						</span>
+					</code>
+				)}
 			</div>
 		);
 	}

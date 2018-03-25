@@ -1,0 +1,1 @@
+export const ALBUM_RELEASED = "ALBUM_RELEASED";
