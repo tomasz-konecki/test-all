@@ -8,23 +8,33 @@ body {
 	width: 300px;
 }
 
-.date-input-container {
+.form-container {
 	width: 90%;
 	margin-top: 15px;
 }
 
-.date-input-container .date-item {
+p.invalid {
+	display: block;
+	color: crimson;
+	font-size: 0.7em;
+}
+
+.form-container .form-item {
 	margin-bottom: 7px;
 	display: flex;
 }
 
-.date-input-container .date-item label {
+.form-container .form-item label {
 	flex: 1.5;
 }
 
-.date-input-container .date-item input {
+.form-container .form-item input {
 	flex: 3;
 	background: rgb(189, 189, 189);
+}
+
+.form-container .form-item + p {
+	display: none;
 }
 
 .submit-container {

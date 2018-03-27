@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import "./App.css";
-import _ from "lodash";
+// import _ from "lodash";
 
 class App extends Component {
 	constructor() {
 		super();
 		this.state = {
 			project: {
-				name: "Lemon",
-				client: "Curry",
-				startDate: 23032018,
-				endDate: 31122018
-			}
+				firstName: "",
+				lastName: "",
+				email: "",
+				phoneNumber: ""
+			},
+			style: ""
 		};
 	}
 
@@ -30,34 +31,63 @@ class App extends Component {
 		});
 	};
 
-	onSubmit = () => {
-		this.state.project.startDate > this.state.project.endDate
-			? alert("Data początkowa większa od koncowej!")
-			: console.table(this.state.project);
+	validation = (e) => {
+		const patterns = {
+			firstName: /^[A-Za-z]+$/,
+			lastName: /^[A-Za-z\\s-]+$/,
+			email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
+			phoneNumber: /^\d{9,11}$/
+		};
+
+		let regex = patterns[e.target.name];
+		let value = e.target.value;
+		let style = "";
+
+		regex.test(value) ? (style = "valid") : (style = "invalid");
+
+		this.setState({
+			style
+		});
 	};
 
 	render() {
 		return (
 			<div className="app-container">
 				<code>
-					<h2>...State spread</h2>
+					<h2>...Regular expressions</h2>
 					<ul>
-						<li>{this.state.project.name}</li>
-						<li>{this.state.project.client}</li>
-						<li>{this.state.project.startDate}</li>
-						<li>{this.state.project.endDate}</li>
+						<li>{this.state.project.firstName}</li>
+						<li>{this.state.project.lastName}</li>
+						<li>{this.state.project.email}</li>
+						<li>{this.state.project.phoneNumber}</li>
 					</ul>
 				</code>
 				<hr />
-				<div className="date-input-container">
+				<div className="form-container">
 					<code>
-						<div className="date-item">
-							<label>Start date:</label>
-							<input type="text" name="startDate" onChange={this.handleChange} />
+						<div className="form-item">
+							<label>Imię:</label>
+							<input type="text" name="firstName" onChange={this.handleChange} onKeyUp={this.validation} />
 						</div>
-						<div className="date-item">
-							<label>End date:</label>
-							<input type="text" name="endDate" onChange={this.handleChange} />
+						{/* {this.state.flag === false && <p>Znaki specjalne nie są dozwolone</p>} */}
+						<p className={this.state.style}>Znaki specjalne nie są dozwolone</p>
+						<div className="form-item">
+							<label>Nazwisko:</label>
+							<input type="text" name="lastName" onChange={this.handleChange} onKeyUp={this.validation} />
+						</div>
+						<div className="form-item">
+							<label>Email:</label>
+							<input type="text" name="email" onChange={this.handleChange} onKeyUp={this.validation} />
+						</div>
+						<div className="form-item">
+							<label>Telefon:</label>
+							<input
+								type="text"
+								name="phoneNumber"
+								onChange={this.handleChange}
+								onKeyUp={this.validation}
+								maxLength="11"
+							/>
 						</div>
 						<div className="submit-container">
 							<button onClick={this.onSubmit}>
