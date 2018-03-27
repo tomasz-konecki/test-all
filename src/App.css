@@ -19,6 +19,10 @@ p.invalid {
 	font-size: 0.7em;
 }
 
+p.valid {
+	display: none;
+}
+
 .form-container .form-item {
 	margin-bottom: 7px;
 	display: flex;
@@ -33,9 +37,9 @@ p.invalid {
 	background: rgb(189, 189, 189);
 }
 
-.form-container .form-item + p {
-	display: none;
-}
+/* .form-container .form-item + p {
+	color: crimson;
+} */
 
 .submit-container {
 	text-align: right;
