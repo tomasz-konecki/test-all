@@ -1,1 +1,2 @@
 export const ALBUM_RELEASED = "ALBUM_RELEASED";
+export const CHANGE_PROJECT = "CHANGE_PROJECT";

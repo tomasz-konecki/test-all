@@ -1,55 +1,86 @@
 import React, { Component } from "react";
 import "./App.css";
 import store from "./store";
-import { albumReleased } from "./actions/albumsActions";
+import Modal from "react-modal";
+import { changeProject } from "./actions/projectsActions";
 
-class App extends Component {
+// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+// Modal.setAppElement("#yourAppElement");
+
+class App extends React.Component {
 	constructor() {
 		super();
+
 		this.state = {
-			album: "",
-			done: false
+			modalIsOpen: false,
+			mode: ""
 		};
 	}
 
-	handleChange = (e) => {
-		this.setState({
-			album: e.target.value
-		});
+	addProject = () => {
+		store.dispatch(changeProject(null));
+		this.setState(
+			{
+				mode: "Tryb dodawania"
+			},
+			() => {
+				this.openModal();
+			}
+		);
 	};
 
-	onSubmit = () => {
-		this.setState({
-			done: true
-		});
-		store.dispatch(albumReleased(this.state.album));
+	editProject = () => {
+		store.dispatch(changeProject(Math.floor(Math.random() * 100)));
+		this.setState(
+			{
+				mode: "Tryb edycji"
+			},
+			() => {
+				this.openModal();
+			}
+		);
 	};
 
-	handleKeyUp = (e) => {
-		if (e.keyCode === 13) this.onSubmit();
+	openModal = () => {
+		this.setState({ modalIsOpen: true });
 	};
 
-	getAlbums = () => {
-		return store.getState().albums.map((album, index) => <li key="index">{album}</li>);
+	afterOpenModal = () => {};
+
+	closeModal = () => {
+		this.setState({ modalIsOpen: false });
 	};
 
 	render() {
 		return (
 			<div>
-				<h2>PSB ALBUMS</h2>
-				<ul>{this.getAlbums()}</ul>
-				<hr />
-				<code>Enter album name:</code>
-				<input type="text" onChange={this.handleChange} onKeyUp={this.handleKeyUp} />
-				<button onClick={this.onSubmit}>Submit</button>
-				<hr />
-				{this.state.done === true && (
-					<code>
-						You entered:<span>
-							<b>{this.state.album}</b>
-						</span>
-					</code>
-				)}
+				<div className="button-container">
+					<button onClick={this.addProject}>Add project</button>
+					<button onClick={this.editProject}>Edit project</button>
+				</div>
+
+				<Modal
+					isOpen={this.state.modalIsOpen}
+					onAfterOpen={this.afterOpenModal}
+					onRequestClose={this.closeModal}
+					contentLabel="Example Modal"
+					className="Modal"
+				>
+					<header>
+						<h2>Modal</h2>
+						<h2>
+							<code>{this.state.mode}</code>
+						</h2>
+						<span onClick={this.closeModal}>x</span>
+					</header>
+					{this.state.mode === "Tryb edycji" && (
+						<div>
+							<h3>
+								Edycja projektu nr:<span>{store.getState().projectId}</span>
+							</h3>
+						</div>
+					)}
+				</Modal>
 			</div>
 		);
 	}
